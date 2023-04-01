@@ -1,8 +1,16 @@
 using Api.Configurations;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.WriteTo.Console()
+        .ReadFrom.Configuration(context.Configuration);
+});
+
 
 // Add services to the container.
 builder.Services.ConfigureDatabase(builder.Configuration);
@@ -23,6 +31,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseCors("CorsPolicy");
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
