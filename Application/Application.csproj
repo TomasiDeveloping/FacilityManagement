@@ -7,9 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataTransferObjects\" />
     <Folder Include="Mappings\" />
-    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.28.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.28.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>

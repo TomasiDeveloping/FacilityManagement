@@ -1,18 +1,25 @@
 using Api.Configurations;
+using Application.Interfaces;
 using HealthChecks.UI.Client;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Persistence.Repositories;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Serilog
 builder.Host.UseSerilog((context, configuration) =>
 {
     configuration.WriteTo.Console()
         .ReadFrom.Configuration(context.Configuration);
 });
 
+// Register customer services in the container
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
-// Add services to the container.
+// Register services in the container
 builder.Services.ConfigureDatabase(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureCors();
