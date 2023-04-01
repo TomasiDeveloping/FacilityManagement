@@ -12,7 +12,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230401122636_Init")]
+    [Migration("20230401142435_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -201,7 +201,7 @@ namespace Persistence.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("DepartmentId")
+                    b.Property<Guid?>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -275,6 +275,26 @@ namespace Persistence.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("529ba03e-574a-4332-8775-a4e0d8f26ed4"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6fab3ee5-3fca-49ff-bace-c891c7b62259",
+                            Email = "admin@facilitymanagement.com",
+                            EmailConfirmed = true,
+                            FirstName = "Service",
+                            Function = "Application Administrator",
+                            LastName = "Administrator",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@FACILITYMANAGEMENT.COM",
+                            NormalizedUserName = "ADMIN@FACILITYMANAGEMENT.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELnrMUTQtP8YNRkZGSCos4JNaGszRY0dTi0Ptj99PWu9QqzKrYaPStn6/ywrAD2+DA==",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "admin@facilitymanagement.com"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.UserRole", b =>
@@ -303,6 +323,20 @@ namespace Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4e4625f6-2973-4fa2-b820-a2f42b6d0037"),
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = new Guid("cf67ce75-2fad-419d-be1a-7ed610fc860c"),
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -387,6 +421,13 @@ namespace Persistence.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("529ba03e-574a-4332-8775-a4e0d8f26ed4"),
+                            RoleId = new Guid("4e4625f6-2973-4fa2-b820-a2f42b6d0037")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -435,8 +476,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Entities.Department", "Department")
                         .WithMany("Users")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Department");
                 });

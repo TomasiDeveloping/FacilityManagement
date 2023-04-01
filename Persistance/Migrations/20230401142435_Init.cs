@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
@@ -88,7 +90,7 @@ namespace Persistence.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PersonalNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Function = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -251,6 +253,25 @@ namespace Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { new Guid("4e4625f6-2973-4fa2-b820-a2f42b6d0037"), null, "Administrator", "ADMINISTRATOR" },
+                    { new Guid("cf67ce75-2fad-419d-be1a-7ed610fc860c"), null, "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DepartmentId", "Email", "EmailConfirmed", "FirstName", "Function", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PersonalNumber", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("529ba03e-574a-4332-8775-a4e0d8f26ed4"), 0, "6fab3ee5-3fca-49ff-bace-c891c7b62259", null, "admin@facilitymanagement.com", true, "Service", "Application Administrator", "Administrator", false, null, "ADMIN@FACILITYMANAGEMENT.COM", "ADMIN@FACILITYMANAGEMENT.COM", "AQAAAAIAAYagAAAAELnrMUTQtP8YNRkZGSCos4JNaGszRY0dTi0Ptj99PWu9QqzKrYaPStn6/ywrAD2+DA==", null, null, false, null, false, "admin@facilitymanagement.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { new Guid("4e4625f6-2973-4fa2-b820-a2f42b6d0037"), new Guid("529ba03e-574a-4332-8775-a4e0d8f26ed4") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_UserId",
