@@ -1,5 +1,6 @@
 using Api.Configurations;
 using Application.Interfaces;
+using Application.Models;
 using HealthChecks.UI.Client;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -16,8 +17,10 @@ builder.Host.UseSerilog((context, configuration) =>
 });
 
 // Register customer services in the container
+builder.Services.AddSingleton(builder.Configuration.GetSection("EmailSettings").Get<EmailConfiguration>());
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 // Register services in the container
 builder.Services.ConfigureDatabase(builder.Configuration);

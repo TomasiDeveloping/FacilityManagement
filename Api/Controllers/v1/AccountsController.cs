@@ -76,4 +76,42 @@ public class AccountsController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
         }
     }
+
+    [HttpPost("[action]")]
+    public async Task<ActionResult<ForgotPasswordResponseDto>> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+    {
+        try
+        {
+            var response = await _accountRepository.SendForgotPasswordEmailAsync(forgotPasswordDto);
+            if (response.IsSuccessful)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
+        }
+    }
+
+    [HttpPost("[action]")]
+    public async Task<ActionResult<ResetPasswordResponseDto>> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+        try
+        {
+            var resetPasswordResponse = await _accountRepository.ResetPasswordAsync(resetPasswordDto);
+            if (resetPasswordResponse.IsSuccessful)
+            {
+                return Ok(resetPasswordResponse);
+            }
+            return BadRequest(resetPasswordResponse);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
+        }
+    }
 }
