@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Application.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -10,10 +11,12 @@ namespace Infrastructure.Services;
 
 public class JwtService : IJwtService
 {
+    private readonly UserManager<User> _userManager;
     private readonly IConfigurationSection _jwtSection;
 
-    public JwtService(IConfiguration configuration)
+    public JwtService(IConfiguration configuration, UserManager<User> userManager)
     {
+        _userManager = userManager;
         _jwtSection = configuration.GetSection("JwtSettings");
     }
 
@@ -25,12 +28,15 @@ public class JwtService : IJwtService
         return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
     }
 
-    public List<Claim> GetClaims(User user)
+    public async Task<List<Claim>> GetClaimsAsync(User user)
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Email, user.Email!)
+            new("email", user.Email!),
+            new("userId", user.Id.ToString().ToUpper()),
         };
+        var roles = await _userManager.GetRolesAsync(user);
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
         return claims;
     }
 

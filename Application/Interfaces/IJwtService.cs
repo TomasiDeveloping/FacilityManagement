@@ -8,6 +8,6 @@ namespace Application.Interfaces;
 public interface IJwtService
 {
     SigningCredentials GetSigningCredentials();
-    List<Claim> GetClaims(User user);
+    Task<List<Claim>> GetClaimsAsync(User user);
     JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims);
 }

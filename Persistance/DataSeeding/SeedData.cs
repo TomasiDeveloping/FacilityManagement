@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Constants;
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,14 +36,14 @@ public static class SeedData
             new()
             {
                 Id = new Guid("4E4625F6-2973-4FA2-B820-A2F42B6D0037"),
-                Name = "Administrator",
-                NormalizedName = "ADMINISTRATOR"
+                Name = RoleConstants.Admin,
+                NormalizedName = RoleConstants.Admin.ToUpper()
             },
             new()
             {
                 Id = Guid.NewGuid(),
-                Name = "User",
-                NormalizedName = "USER"
+                Name = RoleConstants.User,
+                NormalizedName = RoleConstants.User.ToUpper()
             }
         };
         builder.Entity<UserRole>().HasData(roles);

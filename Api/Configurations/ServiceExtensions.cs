@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Application.Mappings;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -79,6 +80,14 @@ public static class ServiceExtensions
                 ValidAudience = jwtSection["Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["Key"]!))
             };
+        });
+    }
+
+    public static void ConfigureAutoMapper(this IServiceCollection services)
+    {
+        services.AddAutoMapper(options =>
+        {
+            options.AddProfile<UserProfile>();
         });
     }
 }

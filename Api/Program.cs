@@ -27,6 +27,7 @@ builder.Services.ConfigureApiVersioning();
 builder.Services.ConfigureHealthChecks(builder.Configuration);
 builder.Services.ConfigureAuthentication(builder.Configuration.GetSection("JwtSettings"));
 builder.Services.ConfigureSwagger();
+builder.Services.ConfigureAutoMapper();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
