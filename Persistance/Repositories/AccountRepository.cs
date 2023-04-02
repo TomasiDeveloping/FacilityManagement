@@ -94,7 +94,7 @@ public class AccountRepository : IAccountRepository
             {"email", forgotPasswordDto.Email}
         };
         var callback = QueryHelpers.AddQueryString(forgotPasswordDto.ClientUri, param);
-        var message = new EmailMessage(new[] {user.Email}, "Reset Password", callback);
+        var message = new EmailMessage(new[] {user.Email}, "Passwort zurücksetzen", PasswordResetMessage(user, callback));
 
         await _emailSender.SendEmailAsync(message);
         return new ForgotPasswordResponseDto
@@ -131,5 +131,18 @@ public class AccountRepository : IAccountRepository
             IsSuccessful = false,
             Errors = errors
         };
+    }
+
+    private static string PasswordResetMessage(User user, string callBack)
+    {
+        return $"<h2>Hallo {user.FirstName} {user.LastName}</h2>" +
+               "<p>Sie haben kürzlich beantragt, " +
+               "das Passwort für Ihr FacilityManagement-Konto zurückzusetzen." +
+               "Klicken Sie auf den Link unten, um fortzufahren.</p>" +
+               $"<a href={callBack}>Passwort zurücksetzen</a>" +
+               "<p>Wenn Sie keine Passwortrücksetzung angefordert haben, " +
+               "ignorieren Sie bitte diese E-Mail oder antworten Sie, um uns dies mitzuteilen.</p>" +
+               "<p> Dieser Link zum Zurücksetzen des Passworts ist nur für die nächsten <b>2 Stunden gültig</b>.</p>" +
+               "<p>Vielen Dank, das FacilityManagement-Team</p>";
     }
 }
