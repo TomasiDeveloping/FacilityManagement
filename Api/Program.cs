@@ -20,6 +20,7 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddSingleton(builder.Configuration.GetSection("EmailSettings").Get<EmailConfiguration>());
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 // Register services in the container
