@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Hy, Patrick</h1>
+  <h1>{{getGreeting()}} {{currentUser?.firstName}} {{currentUser?.lastName}}</h1>
   <div class="main-container">
     <div class="tasks-container">
       <div class="tasks-container__task">
@@ -18,7 +18,7 @@
         <div class="card text-bg-light">
           <h5 class="card-header">Termine</h5>
           <div class="card-body">
-              <button class="btn btn-success btn-sm mb-3" routerLink="/termine">Meine Termine bearbeiten</button>
+            <button class="btn btn-success btn-sm mb-3" routerLink="/termine">Meine Termine bearbeiten</button>
             <ul class="card-text">
               <li>Termin 1</li>
               <li>Termin 2</li>
@@ -31,7 +31,8 @@
       <div class="card text-bg-info">
         <h5 class="card-header">Wartungsarbeiten</h5>
         <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+            content.</p>
         </div>
       </div>
     </div>

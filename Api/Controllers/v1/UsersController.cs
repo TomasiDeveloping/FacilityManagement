@@ -33,4 +33,20 @@ public class UsersController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
         }
     }
+
+    [HttpGet("{userId}")]
+    public async Task<ActionResult<UserDto>> GetUserById(string userId)
+    {
+        try
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            if (user == null) return BadRequest($"No User found with id: {userId}");
+            return Ok(user);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
+        }
+    }
 }

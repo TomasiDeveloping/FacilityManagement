@@ -1,44 +1,46 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand">Facility Management</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbar">
-      <ul class="navbar-nav me-auto" >
-        <li class="nav-item" *ngIf="!isUserLoggedIn">
+      <ul class="navbar-nav me-auto">
+        <li *ngIf="!isUserLoggedIn" class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="active">Home
           </a>
         </li>
-        <li class="nav-item" *ngIf="isUserLoggedIn">
+        <li *ngIf="isUserLoggedIn" class="nav-item">
           <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
         </li>
-        <li class="nav-item" *ngIf="isUserLoggedIn">
+        <li *ngIf="isUserLoggedIn" class="nav-item">
           <a class="nav-link" routerLink="/aufgaben" routerLinkActive="active">Aufgaben</a>
         </li>
-        <li class="nav-item" *ngIf="isUserLoggedIn">
+        <li *ngIf="isUserLoggedIn" class="nav-item">
           <a class="nav-link" routerLink="/termine" routerLinkActive="active">Termine</a>
         </li>
-        <li class="nav-item" *ngIf="isUserLoggedIn">
+        <li *ngIf="isUserLoggedIn" class="nav-item">
           <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
         </li>
       </ul>
-      <div class="login" *ngIf="isUserLoggedIn">
+      <div *ngIf="isUserLoggedIn" class="login">
         <ul class="navbar-nav me-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              Patrick
+            <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+               role="button">
+              {{currentUser?.firstName}}
             </a>
             <div class="dropdown-menu dropdown-menu-end">
               <a class="dropdown-item">Konto</a>
               <a class="dropdown-item">Einstellungen</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" (click)="onLogout()">Logout</a>
+              <a (click)="onLogout()" class="dropdown-item">Logout</a>
             </div>
           </li>
         </ul>
       </div>
-      <div class="d-flex login" routerLink="/login" *ngIf="!isUserLoggedIn">
+      <div *ngIf="!isUserLoggedIn" class="d-flex login" routerLink="/login">
         <span class="material-symbols-outlined">login</span> Login
       </div>
     </div>

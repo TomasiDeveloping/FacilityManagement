@@ -13,8 +13,8 @@ import {ToastrService} from "ngx-toastr";
 })
 export class AuthenticationService {
 
-  private _authChangeSubscription = new Subject<boolean>();
-  public authChanged = this._authChangeSubscription.asObservable();
+  private _authChangeSubscription$ = new Subject<boolean>();
+  public authChanged = this._authChangeSubscription$.asObservable();
 
   private readonly _serviceUrl = environment.apiBaseUrl + '/accounts/';
   private readonly _jwtService = inject(JwtHelperService);
@@ -26,7 +26,7 @@ export class AuthenticationService {
   }
 
   public sendAuthStateChangeNotification(isAuthenticated: boolean): void {
-    this._authChangeSubscription.next(isAuthenticated);
+    this._authChangeSubscription$.next(isAuthenticated);
   }
 
   public isUserAuthenticated(): boolean {
