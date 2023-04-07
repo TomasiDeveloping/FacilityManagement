@@ -1,0 +1,20 @@
+form{
+  margin: auto;
+  max-width: 600px;
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 20px;
+}
+
+.forgot-password {
+  cursor: pointer;
+  font-weight: bold;
+  color: #593196;
+}
+.forgot-password:hover{
+  color: purple;
+}
+
+.login-icon {
+  cursor: pointer;
+}
