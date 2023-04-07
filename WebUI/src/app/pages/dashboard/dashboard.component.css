@@ -1,0 +1,29 @@
+.main-container {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.tasks-container{
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.tasks-container__task {
+  width: 400px;
+  max-width: 500px;
+}
+
+.tasks-container__appointments {
+  width: 400px;
+  max-width: 500px;
+}
+
+.maintenance-container {
+}

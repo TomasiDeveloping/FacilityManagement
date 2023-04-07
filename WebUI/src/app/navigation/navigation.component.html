@@ -1,27 +1,44 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Facility Management</a>
+    <a class="navbar-brand">Facility Management</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbar">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Home
-            <span class="visually-hidden">(current)</span>
+      <ul class="navbar-nav me-auto" >
+        <li class="nav-item" *ngIf="!isUserLoggedIn">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active">Home
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+        <li class="nav-item" *ngIf="isUserLoggedIn">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+        <li class="nav-item" *ngIf="isUserLoggedIn">
+          <a class="nav-link" routerLink="/aufgaben" routerLinkActive="active">Aufgaben</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+        <li class="nav-item" *ngIf="isUserLoggedIn">
+          <a class="nav-link" routerLink="/termine" routerLinkActive="active">Termine</a>
+        </li>
+        <li class="nav-item" *ngIf="isUserLoggedIn">
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
         </li>
       </ul>
-      <div class="d-flex login">
+      <div class="login" *ngIf="isUserLoggedIn">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              Patrick
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a class="dropdown-item">Konto</a>
+              <a class="dropdown-item">Einstellungen</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" (click)="onLogout()">Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="d-flex login" routerLink="/login" *ngIf="!isUserLoggedIn">
         <span class="material-symbols-outlined">login</span> Login
       </div>
     </div>
