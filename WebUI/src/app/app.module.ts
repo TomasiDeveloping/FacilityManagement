@@ -13,9 +13,11 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { AppointmentsComponent } from './pages/appointments/appointments.component';
 import { AdminComponent } from './pages/admin/admin.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NgxSpinnerModule} from "ngx-spinner";
+import {SpinnerInterceptor} from "./interceptors/spinner.interceptor";
 
 export function tokengetter() {
   return localStorage.getItem('FacilityToken');
@@ -49,8 +51,11 @@ export function tokengetter() {
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     }),
+    NgxSpinnerModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

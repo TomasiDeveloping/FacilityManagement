@@ -61,7 +61,7 @@ public class AccountRepository : IAccountRepository
         if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
             return new AuthResponseDto
             {
-                ErrorMessage = "Invalid Authentication",
+                ErrorMessage = "Ungültige Authentifizierung",
                 IsSuccessful = false
             };
 
