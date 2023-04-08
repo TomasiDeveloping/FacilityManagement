@@ -95,6 +95,7 @@ public static class ServiceExtensions
         services.AddAutoMapper(options =>
         {
             options.AddProfile<UserProfile>();
+            options.AddProfile<AssignmentProfile>();
         });
     }
 }
