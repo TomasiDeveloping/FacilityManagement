@@ -1,4 +1,6 @@
-﻿using Application.DataTransferObjects.Assignment;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Application.DataTransferObjects.Assignment;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -83,11 +85,11 @@ public class AssignmentsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<AssignmentDto>> InsertAssignment(AssignmentDto assignmentDto)
+    public async Task<ActionResult<AssignmentDto>> InsertAssignment(CreateAssignmentDto assignmentDto)
     {
         try
         {
-            var assignment = await _assignmentRepository.InsertAssignmentAsync(assignmentDto);
+            var assignment = await _assignmentRepository.InsertAssignmentAsync(assignmentDto, GetUserEmail());
             return CreatedAtAction(nameof(GetAssignment), new {assignmentId = assignment.Id}, assignment);
         }
         catch (Exception e)
@@ -103,7 +105,7 @@ public class AssignmentsController : ControllerBase
         try
         {
             if (assignmentId != assignmentDto.Id) return BadRequest("Error in Id");
-            var assignment = await _assignmentRepository.UpdateAssignmentAsync(assignmentDto);
+            var assignment = await _assignmentRepository.UpdateAssignmentAsync(assignmentDto, GetUserEmail());
             return Ok(assignment);
         }
         catch (Exception e)
@@ -126,5 +128,11 @@ public class AssignmentsController : ControllerBase
             _logger.LogError(e, e.Message);
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
         }
+    }
+
+    private string GetUserEmail()
+    {
+        var test =  HttpContext.User.Identity is ClaimsIdentity identity ? identity.FindFirst(ClaimTypes.Email)?.Value ?? "Unknown" : "Unknown";
+        return test;
     }
 }

@@ -7,6 +7,7 @@ import {DashboardComponent} from "./pages/dashboard/dashboard.component";
 import {TasksComponent} from "./pages/tasks/tasks.component";
 import {AppointmentsComponent} from "./pages/appointments/appointments.component";
 import {AdminComponent} from "./pages/admin/admin.component";
+import {PasswordResetComponent} from "./pages/password-reset/password-reset.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'termine', component: AppointmentsComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
+  {path: 'password-reset', component: PasswordResetComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
 

@@ -8,9 +8,12 @@ public class AssignmentProfile : Profile
 {
     public AssignmentProfile()
     {
-        CreateMap<AssignmentDto, Assignment>()
-            .ForMember(des => des.Id, opt => opt.MapFrom(src => new Guid(src.Id)));
+        CreateMap<CreateAssignmentDto, Assignment>()
+            .ForMember(des => des.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+            .ForMember(des => des.CreateDate, opt => opt.MapFrom(src => DateTime.Now));
 
-        CreateMap<Assignment, AssignmentDto>();
+        CreateMap<AssignmentDto, Assignment>();
+        CreateMap<Assignment, AssignmentDto>()
+            .ForMember(des => des.UserFullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
     }
 }

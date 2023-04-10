@@ -18,6 +18,10 @@ import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {SpinnerInterceptor} from "./interceptors/spinner.interceptor";
+import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/forgot-password-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
+import { AssignmentAddOrEditComponent } from './dialogs/assignment-add-or-edit/assignment-add-or-edit.component';
 
 export function tokengetter() {
   return localStorage.getItem('FacilityToken');
@@ -32,7 +36,10 @@ export function tokengetter() {
     DashboardComponent,
     TasksComponent,
     AppointmentsComponent,
-    AdminComponent
+    AdminComponent,
+    ForgotPasswordDialogComponent,
+    PasswordResetComponent,
+    AssignmentAddOrEditComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +59,8 @@ export function tokengetter() {
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     }),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatDialogModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true}

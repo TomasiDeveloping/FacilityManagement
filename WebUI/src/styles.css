@@ -1,9 +1,11 @@
-html,
-body{
-  width: 100%;
+html, body {
   height: 100%;
+  width: 100%;
 }
-
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 .app-background {
   position: absolute;
   top: 0;
@@ -13,3 +15,5 @@ body{
   z-index: -1;
   background-color: #e7e7f8 !important;
 }
+
+

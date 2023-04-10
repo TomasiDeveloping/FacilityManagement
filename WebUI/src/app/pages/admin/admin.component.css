@@ -1,0 +1,7 @@
+.custom-icon {
+  cursor: pointer;
+}
+
+.delete-icon:hover {
+  color: red;
+}

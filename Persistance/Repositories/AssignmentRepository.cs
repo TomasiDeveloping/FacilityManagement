@@ -23,6 +23,7 @@ public class AssignmentRepository : IAssignmentRepository
         var assignments = await _context.Assignments
             .AsNoTracking()
             .ProjectTo<AssignmentDto>(_mapper.ConfigurationProvider)
+            .OrderByDescending(a => a.CreateDate)
             .ToListAsync();
         return assignments;
     }
@@ -33,6 +34,7 @@ public class AssignmentRepository : IAssignmentRepository
             .AsNoTracking()
             .ProjectTo<AssignmentDto>(_mapper.ConfigurationProvider)
             .Where(a => !a.IsCompleted)
+            .OrderByDescending(a => a.CreateDate)
             .ToListAsync();
         return assignment;
     }
@@ -43,6 +45,7 @@ public class AssignmentRepository : IAssignmentRepository
             .AsNoTracking()
             .ProjectTo<AssignmentDto>(_mapper.ConfigurationProvider)
             .Where(a => a.UserId == userId && !a.IsCompleted)
+            .OrderByDescending(a => a.CreateDate)
             .ToListAsync();
         return assignments;
     }
@@ -56,22 +59,21 @@ public class AssignmentRepository : IAssignmentRepository
         return assignment;
     }
 
-    public async Task<AssignmentDto> UpdateAssignmentAsync(AssignmentDto assignmentDto)
+    public async Task<AssignmentDto> UpdateAssignmentAsync(AssignmentDto assignmentDto, string userName)
     {
         var assignment = await _context.Assignments.FirstOrDefaultAsync(a => a.Id.ToString() == assignmentDto.Id);
         if (assignment == null) return null;
         _mapper.Map(assignmentDto, assignment);
         assignment.ModifyDate = DateTime.Now;
+        assignment.ModifyBy = userName;
         await _context.SaveChangesAsync();
         return _mapper.Map<AssignmentDto>(assignment);
     }
 
-    public async Task<AssignmentDto> InsertAssignmentAsync(AssignmentDto assignmentDto)
+    public async Task<AssignmentDto> InsertAssignmentAsync(CreateAssignmentDto assignmentDto, string userName)
     {
         var assignment = _mapper.Map<Assignment>(assignmentDto);
-        assignment.CreateDate = DateTime.Now;
-        assignment.CreatedBy = "";
-        assignment.Id = Guid.NewGuid();
+        assignment.CreatedBy = userName;
         await _context.Assignments.AddAsync(assignment);
         await _context.SaveChangesAsync();
         return _mapper.Map<AssignmentDto>(assignment);

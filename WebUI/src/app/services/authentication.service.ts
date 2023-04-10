@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {Router} from "@angular/router";
 import {environment} from "../../environments/environment";
@@ -7,6 +7,8 @@ import {HttpClient} from "@angular/common/http";
 import {LoginRequest} from "../models/loginRequest.model";
 import {AuthResponse} from "../models/authResponse.model";
 import {ToastrService} from "ngx-toastr";
+import {ForgotPassword} from "../models/forgotPassword.model";
+import {ResetPassword} from "../models/resetPassword.model";
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +59,22 @@ export class AuthenticationService {
     this.sendAuthStateChangeNotification(false);
     localStorage.removeItem('FacilityToken');
     this._router.navigate(['']).then();
+  }
+
+  public forgotPassword(forgotPassword: ForgotPassword): void {
+    this._httpClient.post<{isSuccessful: boolean, errorMessage: string}>(this._serviceUrl + 'forgotPassword', forgotPassword).subscribe({
+      next: ((result) => {
+        if (result.isSuccessful) {
+          this._toastr.info('Der Link wurde gesendet. Bitte überprüfen Sie Ihre E-Mail (Spam), um Ihr Passwort zurückzusetzen.', 'Neuses Passwort');
+        }
+      }),
+      error: error => {
+        this._toastr.error(error.error ?? 'Somethine went wrong', 'Neuse Passwort');
+      }
+    });
+  }
+
+  public resetPassword(resetPassword: ResetPassword): Observable<{isSuccessful: boolean, errorMessage: string}> {
+    return this._httpClient.post<{isSuccessful: boolean, errorMessage: string}>(this._serviceUrl + 'resetPassword', resetPassword);
   }
 }
