@@ -18,8 +18,8 @@ export class PasswordValidators {
       }
 
       if (passwordControl.value !== confirmPasswordControl.value) {
-        confirmPasswordControl.setErrors({ passwordMismatch: true });
-        return { passwordMismatch: true };
+        confirmPasswordControl.setErrors({passwordMismatch: true});
+        return {passwordMismatch: true};
       } else {
         confirmPasswordControl.setErrors(null);
         return null;

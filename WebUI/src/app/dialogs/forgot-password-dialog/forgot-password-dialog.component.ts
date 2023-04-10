@@ -9,16 +9,16 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class ForgotPasswordDialogComponent {
 
-  private readonly _dialogRef = inject(MatDialogRef<ForgotPasswordDialogComponent>);
-
   public emailForm: FormGroup = new FormGroup({
     email: new FormControl<string>('', [Validators.required, Validators.email])
   });
+  private readonly _dialogRef = inject(MatDialogRef<ForgotPasswordDialogComponent>);
 
-  get email(){
+  get email() {
     return this.emailForm.get('email')!;
   }
-  onClose(data: string | null):void {
+
+  onClose(data: string | null): void {
     this._dialogRef.close(data);
   }
 

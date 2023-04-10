@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-center mt-2">
-      <p class="forgot-password" (click)="onForgotPassword()">Passwort vergessen?</p>
+      <p (click)="onForgotPassword()" class="forgot-password">Passwort vergessen?</p>
     </div>
     <div class="d-grid mt-4">
       <button [disabled]="loginForm.invalid" class="btn btn-success" type="submit">Login</button>

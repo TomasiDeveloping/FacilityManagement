@@ -2,7 +2,9 @@
   <h2>Admin</h2>
   <ng-container>
     <h5 class="mt-5">Aufgaben:</h5>
-    <button (click)="onAddNewAssignment()" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Aufgabe erstellen</button>
+    <button (click)="onAddNewAssignment()" class="btn btn-primary"><i aria-hidden="true" class="fa fa-plus"></i> Aufgabe
+      erstellen
+    </button>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -22,8 +24,8 @@
           <td>{{assignment.userFullName}}</td>
           <td>{{assignment.createDate | date: 'dd.MM.yyyy HH:mm'}}</td>
           <td>
-            <i *ngIf="assignment.isCompleted" class="fa fa-check text-success" aria-hidden="true"></i>
-            <i *ngIf="!assignment.isCompleted" class="fa fa-times text-danger" aria-hidden="true"></i>
+            <i *ngIf="assignment.isCompleted" aria-hidden="true" class="fa fa-check text-success"></i>
+            <i *ngIf="!assignment.isCompleted" aria-hidden="true" class="fa fa-times text-danger"></i>
           </td>
           <td class="text-center">
             <div class="d-flex justify-content-between">

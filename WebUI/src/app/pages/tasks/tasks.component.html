@@ -1,17 +1,18 @@
 <div class="container">
   <h2>Aufgaben</h2>
   <ng-container *ngIf="userAssignments.length <= 0; else assignmentCards">
-      <div class="alert alert-dismissible alert-success mt-5 mx-auto" style="max-width: 50rem">
-        <div>
-          <span class="material-symbols-outlined">done_outline</span>
-        </div>
-        <strong>Gut gemacht!</strong>
-        <div>Du hast keine offenen Aufgaben.</div>
+    <div class="alert alert-dismissible alert-success mt-5 mx-auto" style="max-width: 50rem">
+      <div>
+        <span class="material-symbols-outlined">done_outline</span>
       </div>
+      <strong>Gut gemacht!</strong>
+      <div>Du hast keine offenen Aufgaben.</div>
+    </div>
   </ng-container>
   <ng-template #assignmentCards>
     <div class="assignment-card">
-      <div class="card bg-light border-primary text-center mb-3 mx-auto" *ngFor="let assignment of userAssignments" style="max-width: 60rem">
+      <div *ngFor="let assignment of userAssignments" class="card bg-light border-primary text-center mb-3 mx-auto"
+           style="max-width: 60rem">
         <div class="card-header">
           {{assignment.name}}
         </div>

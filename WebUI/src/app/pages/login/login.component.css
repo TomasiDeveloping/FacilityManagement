@@ -1,4 +1,4 @@
-form{
+form {
   margin: auto;
   max-width: 600px;
   border: 1px solid black;
@@ -11,7 +11,8 @@ form{
   font-weight: bold;
   color: #593196;
 }
-.forgot-password:hover{
+
+.forgot-password:hover {
   color: purple;
 }
 

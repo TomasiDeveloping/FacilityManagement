@@ -18,10 +18,10 @@ import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {SpinnerInterceptor} from "./interceptors/spinner.interceptor";
-import { ForgotPasswordDialogComponent } from './dialogs/forgot-password-dialog/forgot-password-dialog.component';
+import {ForgotPasswordDialogComponent} from './dialogs/forgot-password-dialog/forgot-password-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
-import { AssignmentAddOrEditComponent } from './dialogs/assignment-add-or-edit/assignment-add-or-edit.component';
+import {PasswordResetComponent} from './pages/password-reset/password-reset.component';
+import {AssignmentAddOrEditComponent} from './dialogs/assignment-add-or-edit/assignment-add-or-edit.component';
 
 export function tokengetter() {
   return localStorage.getItem('FacilityToken');

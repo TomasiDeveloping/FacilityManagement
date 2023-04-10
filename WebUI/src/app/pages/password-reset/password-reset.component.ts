@@ -18,9 +18,9 @@ export class PasswordResetComponent implements OnInit {
     confirmPassword: new FormControl<string>('', [Validators.required]),
     password: new FormControl<string>('', Validators.compose([
       Validators.required,
-      PasswordValidators.patternValidator(new RegExp("(?=.*[0-9])"), { hasNumber: true }),
-      PasswordValidators.patternValidator(new RegExp("(?=.*[A-Z])"), { hasCapitalCase: true }),
-      PasswordValidators.patternValidator(new RegExp("(?=.*[a-z])"), { hasSmallCase: true }),
+      PasswordValidators.patternValidator(new RegExp("(?=.*[0-9])"), {hasNumber: true}),
+      PasswordValidators.patternValidator(new RegExp("(?=.*[A-Z])"), {hasCapitalCase: true}),
+      PasswordValidators.patternValidator(new RegExp("(?=.*[a-z])"), {hasSmallCase: true}),
       PasswordValidators.patternValidator(new RegExp("(?=.*[$@^!%*?&+])"), {hasSpecialCharacters: true}),
       Validators.minLength(8)
     ]))
@@ -35,11 +35,6 @@ export class PasswordResetComponent implements OnInit {
   private readonly _authService = inject(AuthenticationService);
   private readonly _toastr = inject(ToastrService);
   private readonly _router = inject(Router);
-  ngOnInit() {
-
-    this._token = this._route.snapshot.queryParams['token'];
-    this._email = this._route.snapshot.queryParams['email'];
-  }
 
   get password() {
     return this.resetForm.get('password')!;
@@ -47,6 +42,12 @@ export class PasswordResetComponent implements OnInit {
 
   get confirmPassword() {
     return this.resetForm.get('confirmPassword')!;
+  }
+
+  ngOnInit() {
+
+    this._token = this._route.snapshot.queryParams['token'];
+    this._email = this._route.snapshot.queryParams['email'];
   }
 
   onSubmit(): void {
@@ -58,7 +59,7 @@ export class PasswordResetComponent implements OnInit {
       return;
     }
     const resetPassword: ResetPassword = {
-      password : this.password.value,
+      password: this.password.value,
       email: this._email,
       token: this._token
     };

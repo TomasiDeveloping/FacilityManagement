@@ -62,7 +62,10 @@ export class AuthenticationService {
   }
 
   public forgotPassword(forgotPassword: ForgotPassword): void {
-    this._httpClient.post<{isSuccessful: boolean, errorMessage: string}>(this._serviceUrl + 'forgotPassword', forgotPassword).subscribe({
+    this._httpClient.post<{
+      isSuccessful: boolean,
+      errorMessage: string
+    }>(this._serviceUrl + 'forgotPassword', forgotPassword).subscribe({
       next: ((result) => {
         if (result.isSuccessful) {
           this._toastr.info('Der Link wurde gesendet. Bitte überprüfen Sie Ihre E-Mail (Spam), um Ihr Passwort zurückzusetzen.', 'Neuses Passwort');
@@ -74,7 +77,10 @@ export class AuthenticationService {
     });
   }
 
-  public resetPassword(resetPassword: ResetPassword): Observable<{isSuccessful: boolean, errorMessage: string}> {
-    return this._httpClient.post<{isSuccessful: boolean, errorMessage: string}>(this._serviceUrl + 'resetPassword', resetPassword);
+  public resetPassword(resetPassword: ResetPassword): Observable<{ isSuccessful: boolean, errorMessage: string }> {
+    return this._httpClient.post<{
+      isSuccessful: boolean,
+      errorMessage: string
+    }>(this._serviceUrl + 'resetPassword', resetPassword);
   }
 }

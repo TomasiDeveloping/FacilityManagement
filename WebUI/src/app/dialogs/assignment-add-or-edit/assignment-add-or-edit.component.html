@@ -1,40 +1,40 @@
-<h2 mat-dialog-title>{{assignment.id ? 'Aufgabe bearbeiten': 'Neue Aufgabe erstellen'}}</h2>
+<h2 mat-dialog-title>{{assignment.id ? 'Aufgabe bearbeiten' : 'Neue Aufgabe erstellen'}}</h2>
 <mat-dialog-content>
-  <form *ngIf="assignmentForm" (ngSubmit)="onSubmit()" [formGroup]="assignmentForm">
+  <form (ngSubmit)="onSubmit()" *ngIf="assignmentForm" [formGroup]="assignmentForm">
     <div class="form-group">
-      <label for="name" class="form-label">Name</label>
+      <label class="form-label" for="name">Name</label>
       <input [ngClass]="{
       'is-invalid': name.invalid && (name.dirty || name.touched),
       'is-valid': name.valid
-      }" class="form-control" id="name" formControlName="name" type="text">
-      <div class="invalid-feedback" *ngIf="name.errors && (name.dirty || name.touched)">
+      }" class="form-control" formControlName="name" id="name" type="text">
+      <div *ngIf="name.errors && (name.dirty || name.touched)" class="invalid-feedback">
         <p *ngIf="name.errors['required']">Name ist ein Pflichtfeld</p>
         <p *ngIf="name.errors['maxlength']">Name darf nicht mehr als 200 Zeichen haben</p>
       </div>
     </div>
     <div class="form-group">
       <label class="form-label" for="description">Beschreibung</label>
-      <textarea class="form-control" id="description" type="text" rows="3" formControlName="description"></textarea>
+      <textarea class="form-control" formControlName="description" id="description" rows="3" type="text"></textarea>
     </div>
     <div class="form-group">
       <label class="form-label" for="user">Bearbeiter</label>
       <select [ngClass]="{
       'is-invalid': userControl.invalid && (userControl.dirty || userControl.touched),
       'is-valid': userControl.valid
-      }" class="form-select" id="user" formControlName="userId">
+      }" class="form-select" formControlName="userId" id="user">
         <option *ngFor="let user of users" [ngValue]="user.id">{{user.firstName}} {{user.lastName}}</option>
       </select>
-      <div class="invalid-feedback" *ngIf="userControl.errors && (userControl.dirty || userControl.touched)">
+      <div *ngIf="userControl.errors && (userControl.dirty || userControl.touched)" class="invalid-feedback">
         <p *ngIf="userControl.errors['required']">Bearbeiter ist ein Pflichtfeld</p>
       </div>
     </div>
     <div class="form-check mt-3">
-      <input class="form-check-input" id="isCompleted" formControlName="isCompleted" type="checkbox">
-      <label for="isCompleted" class="form-check-label">Ist Erledigt</label>
+      <input class="form-check-input" formControlName="isCompleted" id="isCompleted" type="checkbox">
+      <label class="form-check-label" for="isCompleted">Ist Erledigt</label>
     </div>
     <div class="d-flex mt-4 justify-content-between">
       <button (click)="onClose(false)" class="btn btn-danger" type="button">Abbrechen</button>
-      <button type="submit" class="btn btn-success">{{assignment.id ? 'Speichern' : 'Aufgabe erstellen'}}</button>
+      <button class="btn btn-success" type="submit">{{assignment.id ? 'Speichern' : 'Aufgabe erstellen'}}</button>
     </div>
   </form>
 </mat-dialog-content>

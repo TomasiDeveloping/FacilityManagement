@@ -10,12 +10,13 @@ import Swal from "sweetalert2";
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit{
+export class TasksComponent implements OnInit {
   public userAssignments: Assignment[] = [];
 
   private readonly _jwtService = inject(JwtHelperService);
   private readonly _assignmentService = inject(AssignmentService);
   private readonly _toastr = inject(ToastrService);
+
   ngOnInit() {
     const token = this._jwtService.tokenGetter().toString();
     const userId = this._jwtService.decodeToken(token).userId;
@@ -25,7 +26,7 @@ export class TasksComponent implements OnInit{
   getUserAssignments(userId: string) {
     this._assignmentService.getUserAssignments(userId).subscribe({
       next: ((response) => {
-        if (response){
+        if (response) {
           this.userAssignments = response;
         }
       }),
@@ -50,12 +51,12 @@ export class TasksComponent implements OnInit{
         assignment.isCompleted = true;
         this._assignmentService.updateAssignment(assignment.id!, assignment).subscribe({
           next: ((response) => {
-            if (response){
+            if (response) {
               this._toastr.success('Aufgabe erfolgreich abgeschlossen', 'Aufgabe Abschliessen');
               this.getUserAssignments(assignment.userId);
             }
           }),
-          error: error => {
+          error: _ => {
             this._toastr.error('Aufgabe konnte nicht abgeschlossen werden', 'Aufgabe Abschliessen');
           }
         });

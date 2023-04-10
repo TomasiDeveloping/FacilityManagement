@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getUserAssignments(userId: string){
+  getUserAssignments(userId: string) {
     this._assignmentService.getUserAssignments(userId).subscribe({
       next: ((response) => {
         if (response) {

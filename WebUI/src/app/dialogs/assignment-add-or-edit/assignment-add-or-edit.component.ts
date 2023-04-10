@@ -13,7 +13,7 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './assignment-add-or-edit.component.html',
   styleUrls: ['./assignment-add-or-edit.component.css']
 })
-export class AssignmentAddOrEditComponent implements OnInit{
+export class AssignmentAddOrEditComponent implements OnInit {
 
   public assignment: Assignment;
   public assignmentForm!: FormGroup;

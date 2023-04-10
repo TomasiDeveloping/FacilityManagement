@@ -11,17 +11,18 @@ import Swal from "sweetalert2";
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit{
+export class AdminComponent implements OnInit {
   public assignments: Assignment[] = [];
 
   private readonly _assignmentService = inject(AssignmentService);
   private readonly _toastr = inject(ToastrService);
   private readonly _dialog = inject(MatDialog);
+
   ngOnInit() {
     this.getAssignments();
   }
 
-  getAssignments(){
+  getAssignments() {
     this._assignmentService.getAssignments().subscribe({
       next: ((response) => {
         if (response) {
@@ -50,6 +51,7 @@ export class AdminComponent implements OnInit{
     }
     this.openAssignmentDialog(assignment);
   }
+
   openAssignmentDialog(assignment: Assignment) {
     const dialogRef = this._dialog.open(AssignmentAddOrEditComponent, {
       width: '90%',
@@ -78,7 +80,7 @@ export class AdminComponent implements OnInit{
       if (result.isConfirmed) {
         this._assignmentService.deleteAssignment(assignment.id!).subscribe({
           next: ((response) => {
-            if (response){
+            if (response) {
               this._toastr.success('Aufgabe erfolgreich gelöscht', 'Aufgabe löschen');
               this.getAssignments();
             }
