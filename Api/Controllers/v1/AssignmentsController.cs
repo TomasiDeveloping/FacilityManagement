@@ -1,5 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Application.DataTransferObjects.Assignment;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -132,7 +131,9 @@ public class AssignmentsController : ControllerBase
 
     private string GetUserEmail()
     {
-        var test =  HttpContext.User.Identity is ClaimsIdentity identity ? identity.FindFirst(ClaimTypes.Email)?.Value ?? "Unknown" : "Unknown";
+        var test = HttpContext.User.Identity is ClaimsIdentity identity
+            ? identity.FindFirst(ClaimTypes.Email)?.Value ?? "Unknown"
+            : "Unknown";
         return test;
     }
 }

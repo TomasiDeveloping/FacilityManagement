@@ -10,6 +10,7 @@ public class AssignmentProfile : Profile
     {
         CreateMap<CreateAssignmentDto, Assignment>()
             .ForMember(des => des.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+            .ForMember(des => des.ModifyBy, opt => opt.Ignore())
             .ForMember(des => des.CreateDate, opt => opt.MapFrom(src => DateTime.Now));
 
         CreateMap<AssignmentDto, Assignment>();
