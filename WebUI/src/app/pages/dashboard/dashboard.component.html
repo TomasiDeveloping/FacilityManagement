@@ -14,8 +14,8 @@
               </div>
             </ng-container>
             <ng-template #assignments>
-              <ul *ngFor="let assignment of userAssignments" class="card-text">
-                <li>{{assignment.name}}</li>
+              <ul class="card-text">
+                <li *ngFor="let assignment of userAssignments">{{assignment.name}}</li>
               </ul>
             </ng-template>
           </div>
@@ -26,10 +26,18 @@
           <h5 class="card-header">Termine</h5>
           <div class="card-body">
             <button class="btn btn-success btn-sm mb-3" routerLink="/termine">Meine Termine bearbeiten</button>
-            <ul class="card-text">
-              <li>Termin 1</li>
-              <li>Termin 2</li>
-            </ul>
+            <ng-container *ngIf="userAppointments.length > 0; else noAppointments">
+              <ul class="card-text">
+                <li *ngFor="let appointment of userAppointments"><b>{{appointment.reason}}</b> -
+                  von {{appointment.startDate | date: 'dd.MM.yyyy HH:mm'}}
+                  bis {{appointment.endDate | date: 'dd.MM.yyyy HH:mm'}}</li>
+              </ul>
+            </ng-container>
+            <ng-template #noAppointments>
+              <div class="card-text">
+                <p class="card-text">Keine Termine</p>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>
@@ -51,12 +59,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let maintenance of maintenances" [ngClass]="isOlderThanCurrentMonth(maintenance.nextExecution) ? 'table-danger' : 'table-light'">
+                <tr *ngFor="let maintenance of maintenances"
+                    [ngClass]="isOlderThanCurrentMonth(maintenance.nextExecution) ? 'table-danger' : 'table-light'">
                   <th>{{maintenance.name}}</th>
-                  <td class="maintenance-description" (click)="onMaintenanceDescription(maintenance.description)">Beschreibung</td>
+                  <td (click)="onMaintenanceDescription(maintenance.description)" class="maintenance-description">
+                    Beschreibung
+                  </td>
                   <td>{{maintenance.nextExecution | date: 'dd.MM.yyy'}}</td>
-                  <td>{{maintenance.interval > 1 ? 'Alle ' + maintenance.interval + ' Monate': 'Jeden Monat'}}</td>
-                  <td (click)="onCloseMaintenance(maintenance)"><i class="fa fa-pencil custom-icon" aria-hidden="true"></i></td>
+                  <td>{{maintenance.interval > 1 ? 'Alle ' + maintenance.interval + ' Monate' : 'Jeden Monat'}}</td>
+                  <td (click)="onCloseMaintenance(maintenance)"><i aria-hidden="true"
+                                                                   class="fa fa-pencil custom-icon"></i></td>
                 </tr>
                 </tbody>
               </table>

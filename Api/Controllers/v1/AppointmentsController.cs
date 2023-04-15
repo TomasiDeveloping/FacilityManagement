@@ -51,7 +51,7 @@ public class AppointmentsController : ControllerBase
         }
     }
 
-    [HttpGet("/users/{userId}")]
+    [HttpGet("users/{userId}")]
     public async Task<ActionResult<List<AppointmentDto>>> GetUserAppointments(string userId)
     {
         try

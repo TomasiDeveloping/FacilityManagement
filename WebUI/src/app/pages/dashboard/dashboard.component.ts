@@ -10,6 +10,8 @@ import {MaintenanceService} from "../../services/maintenance.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MaintenanceDescriptionComponent} from "../../dialogs/maintenance-description/maintenance-description.component";
 import Swal from "sweetalert2";
+import {Appointment} from "../../models/appointment.model";
+import {AppointmentService} from "../../services/appointment.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -18,17 +20,20 @@ import Swal from "sweetalert2";
 })
 export class DashboardComponent implements OnInit {
 
-  public currentUser: User | undefined;
-  public userAssignments: Assignment[] = [];
-  public maintenances: Maintenance[] = [];
   private readonly _userService = inject(UserService);
   private readonly _toastr = inject(ToastrService);
   private readonly _jwtHelper = inject(JwtHelperService);
   private readonly _assignmentService = inject(AssignmentService);
   public readonly _maintenanceService = inject(MaintenanceService);
+  private readonly _appointmentService = inject(AppointmentService);
   private readonly _dialog = inject(MatDialog);
-  currentMonth: number = new Date().getMonth() + 1;
-  currentYear: number = new Date().getFullYear();
+
+  public currentUser: User | undefined;
+  public userAssignments: Assignment[] = [];
+  public maintenances: Maintenance[] = [];
+  public userAppointments: Appointment[] = [];
+  public currentMonth: number = new Date().getMonth() + 1;
+  public currentYear: number = new Date().getFullYear();
 
   ngOnInit() {
     const token = this._jwtHelper.tokenGetter().toString();
@@ -37,6 +42,7 @@ export class DashboardComponent implements OnInit {
     this.getGreeting();
     this.getUserAssignments(userId);
     this.getMaintenances();
+    this.getUserAppointments(userId);
   }
 
   getUser(userId: string) {
@@ -70,6 +76,19 @@ export class DashboardComponent implements OnInit {
       }),
       error: error => {
         this._toastr.error(error.error ?? 'Something went wrong', 'Get Maintenances');
+      }
+    });
+  }
+
+  getUserAppointments(userId: string) {
+    this._appointmentService.getUserAppointments(userId).subscribe({
+      next: ((response) => {
+        if (response) {
+          this.userAppointments = response;
+        }
+      }),
+      error: error => {
+        this._toastr.error(error.error ?? 'Something went wrong', 'Get User Appointments');
       }
     });
   }
