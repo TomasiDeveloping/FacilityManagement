@@ -12,4 +12,5 @@ public class User : IdentityUser<Guid>
     public string Function { get; set; }
     public ICollection<Address> Address { get; set; }
     public ICollection<Assignment> Assignments { get; set; }
+    public ICollection<Appointment> Appointments { get; set; }
 }

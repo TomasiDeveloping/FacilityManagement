@@ -21,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<User, UserRole, Guid, Iden
     public DbSet<Assignment> Assignments { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<Maintenance> Maintainances { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
