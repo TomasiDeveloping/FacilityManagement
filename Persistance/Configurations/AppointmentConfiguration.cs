@@ -11,6 +11,7 @@ public class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
         builder.HasKey(a => a.Id);
         builder.HasOne(a => a.User)
             .WithMany(u => u.Appointments)
+            .HasForeignKey(a => a.UserId)
             .OnDelete(DeleteBehavior.NoAction);
         builder.Property(a => a.StartDate).IsRequired();
         builder.Property(a => a.EndDate).IsRequired();

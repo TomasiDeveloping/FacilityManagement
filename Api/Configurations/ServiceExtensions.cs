@@ -97,6 +97,7 @@ public static class ServiceExtensions
             options.AddProfile<UserProfile>();
             options.AddProfile<AssignmentProfile>();
             options.AddProfile<MaintenanceProfile>();
+            options.AddProfile<AppointmentProfile>();
         });
     }
 }
