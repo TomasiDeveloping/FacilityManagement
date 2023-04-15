@@ -12,5 +12,7 @@ public class MaintenanceConfiguration : IEntityTypeConfiguration<Maintenance>
         builder.Property(m => m.Interval).IsRequired();
         builder.Property(m => m.Name).IsRequired().HasMaxLength(250);
         builder.Property(m => m.LastExecution).IsRequired(false);
+        builder.Property(m => m.NextExecution).IsRequired();
+        builder.Property(m => m.Description).IsRequired(false);
     }
 }

@@ -26,5 +26,11 @@
   max-width: 500px;
 }
 
-.maintenance-container {
+.maintenance-description {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #593196;
+}
+.custom-icon {
+  cursor: pointer;
 }

@@ -5,6 +5,11 @@ import {ToastrService} from "ngx-toastr";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {Assignment} from "../../models/assignment.model";
 import {AssignmentService} from "../../services/assignment.service";
+import {Maintenance} from "../../models/maintenance.model";
+import {MaintenanceService} from "../../services/maintenance.service";
+import {MatDialog} from "@angular/material/dialog";
+import {MaintenanceDescriptionComponent} from "../../dialogs/maintenance-description/maintenance-description.component";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-dashboard',
@@ -15,10 +20,15 @@ export class DashboardComponent implements OnInit {
 
   public currentUser: User | undefined;
   public userAssignments: Assignment[] = [];
+  public maintenances: Maintenance[] = [];
   private readonly _userService = inject(UserService);
   private readonly _toastr = inject(ToastrService);
   private readonly _jwtHelper = inject(JwtHelperService);
   private readonly _assignmentService = inject(AssignmentService);
+  public readonly _maintenanceService = inject(MaintenanceService);
+  private readonly _dialog = inject(MatDialog);
+  currentMonth: number = new Date().getMonth() + 1;
+  currentYear: number = new Date().getFullYear();
 
   ngOnInit() {
     const token = this._jwtHelper.tokenGetter().toString();
@@ -26,6 +36,7 @@ export class DashboardComponent implements OnInit {
     this.getUser(userId);
     this.getGreeting();
     this.getUserAssignments(userId);
+    this.getMaintenances();
   }
 
   getUser(userId: string) {
@@ -52,6 +63,17 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getMaintenances() {
+    this._maintenanceService.getFilteredMaintenancesByMonth(this.currentMonth).subscribe({
+      next: ((response) => {
+        this.maintenances = response;
+      }),
+      error: error => {
+        this._toastr.error(error.error ?? 'Something went wrong', 'Get Maintenances');
+      }
+    });
+  }
+
   getGreeting(): string {
     const hour = new Date().getHours();
     if (hour >= 5 && hour <= 11) {
@@ -64,5 +86,42 @@ export class DashboardComponent implements OnInit {
       return 'Guten Abend,';
     }
     return 'Hy,'
+  }
+
+  isOlderThanCurrentMonth(date: Date): boolean {
+    const dt = new Date(date);
+    return dt.getMonth() + 1 < this.currentMonth;
+  }
+
+  onMaintenanceDescription(description: string) {
+    this._dialog.open(MaintenanceDescriptionComponent, {
+      data: description
+    })
+  }
+
+  onCloseMaintenance(maintenance: Maintenance) {
+    Swal.fire({
+      title: 'Wartungsarbeit Abschliessen?',
+      text: `Soll die Wartungsarbeit ${maintenance.name} Abgeschlossen werden ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ja, abschliessen'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._maintenanceService.closeMaintenance(maintenance).subscribe({
+          next: ((response) => {
+            if (response) {
+              this._toastr.success('Wartungsarbeit erfolgreich abgeschlossen', 'Wartungsarbeit Abschliessen');
+              this.getMaintenances();
+            }
+          }),
+          error: _ => {
+            this._toastr.error('Wartungsarbeit konnte nicht abgeschlossen werden', 'Wartungsarbeit Abschliessen');
+          }
+        });
+      }
+    })
   }
 }

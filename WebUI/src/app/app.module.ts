@@ -22,6 +22,8 @@ import {ForgotPasswordDialogComponent} from './dialogs/forgot-password-dialog/fo
 import {MatDialogModule} from "@angular/material/dialog";
 import {PasswordResetComponent} from './pages/password-reset/password-reset.component';
 import {AssignmentAddOrEditComponent} from './dialogs/assignment-add-or-edit/assignment-add-or-edit.component';
+import { MonthConverterPipe } from './helpers/month-converter.pipe';
+import { MaintenanceDescriptionComponent } from './dialogs/maintenance-description/maintenance-description.component';
 
 export function tokengetter() {
   return localStorage.getItem('FacilityToken');
@@ -39,7 +41,9 @@ export function tokengetter() {
     AdminComponent,
     ForgotPasswordDialogComponent,
     PasswordResetComponent,
-    AssignmentAddOrEditComponent
+    AssignmentAddOrEditComponent,
+    MonthConverterPipe,
+    MaintenanceDescriptionComponent
   ],
   imports: [
     BrowserModule,

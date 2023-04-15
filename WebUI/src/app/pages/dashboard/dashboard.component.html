@@ -36,10 +36,35 @@
     </div>
     <div class="maintenance-container">
       <div class="card text-bg-info">
-        <h5 class="card-header">Wartungsarbeiten</h5>
+        <h5 class="card-header">Wartungsarbeiten <span>{{currentMonth | monthConverter}} {{currentYear}}</span></h5>
         <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.</p>
+          <ng-container *ngIf="maintenances.length > 0; else noMaintenance">
+            <div class="table-responsive table-dark">
+              <table class="table">
+                <thead>
+                <tr class="table-primary">
+                  <th scope="col">Name</th>
+                  <th scope="col">Details</th>
+                  <th scope="col">Nächste Ausfürung</th>
+                  <th scope="col">Intervall</th>
+                  <th scope="col">Bearbeiten</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let maintenance of maintenances" [ngClass]="isOlderThanCurrentMonth(maintenance.nextExecution) ? 'table-danger' : 'table-light'">
+                  <th>{{maintenance.name}}</th>
+                  <td class="maintenance-description" (click)="onMaintenanceDescription(maintenance.description)">Beschreibung</td>
+                  <td>{{maintenance.nextExecution | date: 'dd.MM.yyy'}}</td>
+                  <td>{{maintenance.interval > 1 ? 'Alle ' + maintenance.interval + ' Monate': 'Jeden Monat'}}</td>
+                  <td (click)="onCloseMaintenance(maintenance)"><i class="fa fa-pencil custom-icon" aria-hidden="true"></i></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+          <ng-template #noMaintenance>
+            <h5 class="text-center">Es gibt keine Wartungsarbeiten im {{currentMonth | monthConverter}}</h5>
+          </ng-template>
         </div>
       </div>
     </div>

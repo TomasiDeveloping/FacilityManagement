@@ -27,6 +27,18 @@ public class MaintenanceRepository : IMaintenanceRepository
         return maintenances;
     }
 
+    public async Task<List<MaintenanceDto>> GetMaintenancesForMonthOrNotExecuted(int month)
+    {
+        var dateToFilter = new DateTime(DateTime.Now.Year, month, 1);
+        var maintenances = await _context.Maintainances
+            .AsNoTracking()
+            .Where(m => m.NextExecution <= dateToFilter)
+            .OrderBy(m => m.NextExecution)
+            .ProjectTo<MaintenanceDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+        return maintenances;
+    }
+
     public async Task<MaintenanceDto> GetMaintenanceByIdAsync(string id)
     {
         var maintenance = await _context.Maintainances
@@ -44,6 +56,19 @@ public class MaintenanceRepository : IMaintenanceRepository
         await _context.Maintainances.AddAsync(maintenance);
         await _context.SaveChangesAsync();
         return _mapper.Map<MaintenanceDto>(maintenance);
+    }
+
+    public async Task<bool> CloseMaintenanceAsync(string maintenanceId, MaintenanceDto maintenanceDto, string userName)
+    {
+        var maintenance = await _context.Maintainances.FirstOrDefaultAsync(m => m.Id.ToString() == maintenanceId);
+        if (maintenance == null) return false;
+        maintenance.LastExecution = DateTime.Now;
+        maintenance.NextExecution =
+            new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(maintenanceDto.Interval);
+        maintenance.ModifyBy = userName;
+        maintenance.ModifyDate = DateTime.Now;
+        await _context.SaveChangesAsync();
+        return true;
     }
 
     public async Task<bool> DeleteMaintenanceAsync(string id)

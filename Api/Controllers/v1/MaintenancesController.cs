@@ -35,6 +35,22 @@ public class MaintenancesController : ControllerBase
         }
     }
 
+    [HttpGet("[action]")]
+    public async Task<ActionResult<List<MaintenanceDto>>> GetMaintenancesByMonth(int month)
+    {
+        try
+        {
+            var maintenances = await _maintenanceRepository.GetMaintenancesForMonthOrNotExecuted(month);
+            if (!maintenances.Any()) return NoContent();
+            return Ok(maintenances);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
+        }
+    }
+
     [HttpGet("{maintenanceId}")]
     public async Task<ActionResult<MaintenanceDto>> GetMaintenance(string maintenanceId)
     {
@@ -64,6 +80,24 @@ public class MaintenancesController : ControllerBase
         {
             _logger.LogError(e, e.Message);
             return StatusCode(StatusCodes.Status500InternalServerError, "Could not Create Maintenance");
+        }
+    }
+
+    [HttpPut("[action]/{maintenanceId}")]
+    public async Task<ActionResult<bool>> CloseMaintenance(string maintenanceId,
+        [FromBody] MaintenanceDto maintenanceDto)
+    {
+        try
+        {
+            if (maintenanceId != maintenanceDto.Id) return BadRequest("Error in ids");
+            var response =
+                await _maintenanceRepository.CloseMaintenanceAsync(maintenanceId, maintenanceDto, GetUserEmail());
+            return response ? Ok(true) : BadRequest("Could not Close Maintenance");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
         }
     }
 
